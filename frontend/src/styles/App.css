@@ -1,0 +1,30 @@
+form.card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+form.card input {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+form.card button {
+  padding: 0.5rem;
+  border: none;
+  background: #333;
+  color: #fff;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+form.card button:hover {
+  background: #555;
+}
+
+.error {
+  color: red;
+  font-size: 0.9rem;
+}

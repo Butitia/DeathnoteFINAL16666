@@ -1,0 +1,9 @@
+{
+  "server_port": "8080",
+  "db_host": "localhost",
+  "db_port": "5432",
+  "db_user": "deathnote_user",
+  "db_password": "1231",
+  "db_name": "deathnote_db",
+  "sslmode": "disable"
+}
