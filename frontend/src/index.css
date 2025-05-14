@@ -1,0 +1,14 @@
+body {
+  margin: 0;
+  padding: 0;
+  background-image: url('https://i.pinimg.com/736x/32/43/18/3243180fa4634687425353ef2f847c71.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 100vh;
+  font-family: sans-serif;
+  body {
+  background-color: #111;
+}
+
+}

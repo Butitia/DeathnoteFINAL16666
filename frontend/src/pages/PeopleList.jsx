@@ -1,4 +1,3 @@
-// frontend/src/pages/PeopleList.jsx
 import React, { useEffect, useState } from "react";
 import api from "../api/api";
 import NewPersonForm from "../components/NewPersonForm";
@@ -10,7 +9,6 @@ export default function PeopleList() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Carga personas y muertes
   const fetchAll = async () => {
     setLoading(true);
     setError(null);
@@ -29,14 +27,15 @@ export default function PeopleList() {
     }
   };
 
-  useEffect(fetchAll, []);
+  useEffect(() => {
+    fetchAll();
+  }, []);
 
-  // Callback al expirar los 40s: dispara POST /kills
   const handleDeath = async (personId) => {
     try {
       await api.post("/kills", {
         person_id: personId,
-        description: "attack to the heart",
+        description: "Infarto :(",
       });
     } catch (err) {
       console.warn("Error al registrar muerte automática:", err);
@@ -45,38 +44,40 @@ export default function PeopleList() {
     }
   };
 
-  // Construimos conjunto de IDs muertos
   const deadSet = new Set(kills.map((k) => k.person_id));
-  // Filtramos sólo vivos
   const alive = people.filter((p) => !deadSet.has(p.id));
 
-  // Manejo de estados
-  if (loading) {
-    return <p className="text-center mt-4">Cargando datos…</p>;
-  }
-  if (error) {
-    return <p className="text-center mt-4 text-red-600">{error}</p>;
-  }
-  // Si no hay ninguna persona (ni vivos ni muertos)
-  if (people.length === 0) {
-    return (
-      <div className="max-w-4xl mx-auto p-4">
-        <NewPersonForm onCreated={fetchAll} />
-        <p className="text-center mt-4">No hay personas registradas.</p>
-      </div>
-    );
-  }
+  const containerStyle = {
+    maxWidth: '960px',
+    margin: '0 auto',
+    padding: '2rem',
+    color: 'white',
+    fontSize: '1.1rem',
+  };
+
+  const gridStyle = {
+    display: 'grid',
+    gap: '1.5rem',
+    marginTop: '2rem',
+    gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+  };
 
   return (
-    <div className="max-w-4xl mx-auto p-4">
-      {/* Formulario para crear persona */}
-      <NewPersonForm onCreated={fetchAll} />
+    <div style={containerStyle}>
+      <NewPersonForm onCreated={(newPerson) => {
+        setPeople((prev) => [...prev, newPerson]);
+      }} />
 
-      {/* Si no quedan vivos */}
-      {alive.length === 0 ? (
-        <p className="text-center mt-4">No quedan personas vivas.</p>
+      {loading ? (
+        <p style={{ textAlign: 'center', marginTop: '1rem' }}>Cargando datos…</p>
+      ) : error ? (
+        <p style={{ textAlign: 'center', marginTop: '1rem', color: '#f87171' }}>{error}</p>
+      ) : people.length === 0 ? (
+        <p style={{ textAlign: 'center', marginTop: '1rem' }}>No hay personas registradas.</p>
+      ) : alive.length === 0 ? (
+        <p style={{ textAlign: 'center', marginTop: '1rem' }}>No quedan personas vivas.</p>
       ) : (
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 mt-6">
+        <div style={gridStyle}>
           {alive.map((person) => (
             <PersonCard
               key={person.id}

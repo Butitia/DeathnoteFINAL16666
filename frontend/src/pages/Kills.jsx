@@ -37,9 +37,31 @@ export default function Kills() {
     setEditing(null);
   };
 
+  // Estilos en línea
+  const containerStyle = {
+    maxWidth: '960px',
+    margin: '0 auto',
+    padding: '2rem',
+    color: 'white',
+    fontSize: '1.1rem',
+  };
+
+  const titleStyle = {
+    fontSize: '2rem',
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginBottom: '1.5rem',
+  };
+
+  const gridStyle = {
+    display: 'grid',
+    gap: '1.5rem',
+    marginTop: '2rem',
+  };
+
   return (
-    <section>
-      <h2>Kills</h2>
+    <section style={containerStyle}>
+      <h2 style={titleStyle}>Muertes Registradas</h2>
 
       {!editing && <NewKillForm onCreated={handleCreated} />}
 
@@ -51,7 +73,7 @@ export default function Kills() {
         />
       )}
 
-      <div className="grid">
+      <div style={gridStyle}>
         {kills.map((kill) => (
           <KillCard
             key={kill.id}

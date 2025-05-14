@@ -6,7 +6,7 @@ import EditPersonForm from "../components/EditPersonForm";
 
 export default function People() {
   const [people, setPeople] = useState([]);
-  const [editing, setEditing] = useState(null); // persona en edición
+  const [editing, setEditing] = useState(null);
 
   useEffect(() => {
     api.get("/people").then(res => setPeople(res.data)).catch(console.error);
@@ -37,9 +37,31 @@ export default function People() {
     setEditing(null);
   };
 
+  // Estilos visuales consistentes
+  const containerStyle = {
+    maxWidth: '960px',
+    margin: '0 auto',
+    padding: '2rem',
+    color: 'white',
+    fontSize: '1.1rem',
+  };
+
+  const titleStyle = {
+    fontSize: '2rem',
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginBottom: '1.5rem',
+  };
+
+  const gridStyle = {
+    display: 'grid',
+    gap: '1.5rem',
+    marginTop: '2rem',
+  };
+
   return (
-    <section>
-      <h2>People</h2>
+    <section style={containerStyle}>
+      <h2 style={titleStyle}>Personas Registradas</h2>
 
       {!editing && <NewPersonForm onCreated={handleCreated} />}
 
@@ -51,7 +73,7 @@ export default function People() {
         />
       )}
 
-      <div className="grid">
+      <div style={gridStyle}>
         {people.map((person) => (
           <PersonCard
             key={person.id}

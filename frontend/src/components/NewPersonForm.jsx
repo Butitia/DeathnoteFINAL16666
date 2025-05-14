@@ -13,20 +13,25 @@ export default function NewPersonForm({ onCreated }) {
     e.preventDefault();
     setLoading(true);
     try {
-      // Hacemos POST y guardamos la respuesta en res
       const res = await api.post("/people", {
         name,
         age: Number(age),
         photo_url: photoUrl.trim(),
       });
 
-      // Res.data es el objeto Persona creado con id y created_at
       const person = res.data;
-      setCreatedId(person.id);          // guardamos el id
+
+      // Añadir marca de tiempo local
+      const personWithLocalTime = {
+        ...person,
+        local_created_at: Date.now(),
+      };
+
+      setCreatedId(person.id);
       setName("");
       setAge("");
       setPhotoUrl("");
-      onCreated();                      // refresca la lista en el padre
+      onCreated(personWithLocalTime);
     } catch (err) {
       console.error("Error al crear persona:", err);
       alert("No se pudo crear la persona.");
@@ -72,7 +77,6 @@ export default function NewPersonForm({ onCreated }) {
         </button>
       </form>
 
-      {/* Mostrar el ID de la persona recién creada */}
       {createdId && (
         <p className="mt-4 text-green-700">
           ✅ Persona creada con ID: <strong>{createdId}</strong>
